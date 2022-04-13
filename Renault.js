@@ -4,11 +4,16 @@
 // version 2022-03-16
 ///<reference path="./scriptables/index.d.ts" />
 
-//Pulled mostly from an example online
+// Pulked mostly from an example online
 
-// add your my-renault account data:
-let myRenaultUser = args.widgetParameter[0] 	// email
-let myRenaultPass = args.widgetParameter[1] 	// password
+if(args.widgetParameter == undefined){
+    console.log("3.: " + "Add email:password as the widget parameters")
+    Script.complete()
+}
+
+let params = args.widgetParameter?.split(":")
+let myRenaultUser = params[0] 	// email
+let myRenaultPass = params[1] 	// password
 
 // set your ZOE Model (Phase 1 or 2) // bitte eingeben!
 let ZOE_Phase = "2" // "1" or "2"
