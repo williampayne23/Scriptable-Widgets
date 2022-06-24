@@ -3,9 +3,9 @@
 // icon-color: brown; icon-glyph: magic;
 ///<reference path="../index.d.ts" />
 
-const EAForum = "forum.effectivealtruism.org"
-const LessWrong = "lesswrong.com"
-const AlignmentForum = "alignmentforum.org"
+const EAForum = "https://forum.effectivealtruism.org"
+const LessWrong = "https://lesswrong.com"
+const AlignmentForum = "https://alignmentforum.org"
 
 const posts = await getForumPosts(EAForum)
 
@@ -58,7 +58,7 @@ async function createWidget(items) {
 
     // Add spacing below content to center it vertically.
     widget.addSpacer()
-    
+
     // Set URL to open when tapping widget.
     widget.url = item.url
     return widget
