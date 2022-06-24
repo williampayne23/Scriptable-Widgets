@@ -8,10 +8,6 @@ let posts = await getForumPosts()
 if (config.runsInWidget) {
     let w = await createWidget(posts)
     Script.setWidget(w)
-} else {
-    let table = createTable(posts)
-    await QuickLook.present(table)
-    Script.complete()
 }
 Script.complete()
 
@@ -20,28 +16,18 @@ Script.complete()
 async function createWidget(items) {
     const item = items[Math.floor(Math.random() * items.length)];
 
-
-    let gradient = new LinearGradient()
-    gradient.locations = [0, 1]
-    gradient.colors = [
-        new Color("#b00a0fe6"),
-        new Color("#b00a0fb3")
-    ]
-
-
     let widget = new ListWidget()
     let nextRefresh = Date.now() + 1000*60*60
     widget.refreshAfterDate = new Date(nextRefresh)
 
-    widget.backgroundColor = new Color("#b00a0f")
-    widget.backgroundGradient = gradient
+    widget.backgroundColor = Color.white()
 
     // Add spacer above content to center it vertically.
     widget.addSpacer()
     // Show article headline.
     let titleElement = widget.addText(item.title)
     titleElement.font = Font.boldSystemFont(16)
-    titleElement.textColor = Color.white()
+    titleElement.textColor = Color.black()
     titleElement.minimumScaleFactor = 0.75
     // Add spacing below headline.
     widget.addSpacer(8)
@@ -50,17 +36,17 @@ async function createWidget(items) {
 
     let karmaElement = footerStack.addText(item.karma)
     karmaElement.font = Font.mediumSystemFont(12)
-    karmaElement.textColor = Color.white()
+    karmaElement.textColor = Color.black()
     karmaElement.textOpacity = 0.9
     footerStack.addSpacer(4)
     let authorsElement = footerStack.addText(item.authors.join(','))
     authorsElement.font = Font.mediumSystemFont(12)
-    authorsElement.textColor = Color.white()
+    authorsElement.textColor = Color.black()
     authorsElement.textOpacity = 0.9
     footerStack.addSpacer()
     let dateElement = footerStack.addText(item.date)
     dateElement.font = Font.mediumSystemFont(12)
-    dateElement.textColor = Color.white()
+    dateElement.textColor = Color.black()
     dateElement.textOpacity = 0.9
     // Add spacing below content to center it vertically.
     widget.addSpacer()
@@ -90,33 +76,4 @@ async function getForumPosts() {
 
     await wv.waitForLoad()
     return await wv.evaluateJavaScript(js, false)
-}
-
-function createTable(posts) {
-    let table = new UITable()
-    for (post of posts) {
-        let row = new UITableRow()
-        let cell = UITableCell.text(post.title, post.karma + " " + post.authors.join(",") + " " + post.date)
-        row.addCell(cell)
-
-        // let title = post.title
-        // let titleCell = row.addText(title)
-        // titleCell.widthWeight = 80
-        // titleCell.titleFont = Font.mediumSystemFont(12)
-
-
-        // let authorCell = row.addText(post.authors.join(','))
-        // authorCell.widthWeight = 30
-        // authorCell.titleFont = Font.mediumSystemFont(12)
-
-        row.height = 60
-        row.cellSpacing = 10
-        row.onSelect = (idx) => {
-            let post = posts[idx]
-            Safari.open(post.url)
-        }
-        row.dismissOnSelect = true
-        table.addRow(row)
-    }
-    return table
 }
